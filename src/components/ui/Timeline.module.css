@@ -1,0 +1,9 @@
+.timeline { list-style: none; margin: 0; padding: 0; }
+.item { position: relative; padding: 0 0 var(--space-5) var(--space-6); }
+.item::before { content: ""; position: absolute; left: 6px; top: 16px; bottom: -2px; width: 2px; background: var(--color-border); }
+.item:last-child { padding-bottom: 0; }
+.item:last-child::before { display: none; }
+.dot { position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--color-surface); background: var(--color-primary); box-shadow: 0 0 0 1px var(--color-border); }
+.title { font-weight: 600; }
+.meta { font-size: var(--text-xs); color: var(--color-text-3); }
+.body { font-size: var(--text-sm); color: var(--color-text-2); margin-top: 2px; }

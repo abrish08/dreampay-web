@@ -1,0 +1,13 @@
+.alert { display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius); border: 1px solid; font-size: var(--text-md); }
+.alert > svg { flex: none; margin-top: 2px; }
+.body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.title { font-weight: 600; }
+.action { flex: none; align-self: center; }
+.info { background: var(--color-info-soft); border-color: color-mix(in srgb, var(--color-info) 25%, transparent); }
+.info > svg { color: var(--color-info); }
+.success { background: var(--color-success-soft); border-color: color-mix(in srgb, var(--color-success) 25%, transparent); }
+.success > svg { color: var(--color-success); }
+.warning { background: var(--color-warning-soft); border-color: color-mix(in srgb, var(--color-warning) 30%, transparent); }
+.warning > svg { color: var(--color-warning); }
+.danger { background: var(--color-danger-soft); border-color: color-mix(in srgb, var(--color-danger) 25%, transparent); }
+.danger > svg { color: var(--color-danger); }

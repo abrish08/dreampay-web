@@ -1,0 +1,11 @@
+.wrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font-size: var(--text-md); }
+.table th { text-align: left; font-size: var(--text-sm); font-weight: 550; color: var(--color-text-2); padding: 11px var(--space-5); background: var(--color-surface-2); white-space: nowrap; }
+.table td { padding: 14px var(--space-5); border-bottom: 1px solid var(--color-border); vertical-align: middle; }
+.table tbody tr:last-child td { border-bottom: 0; }
+.right { text-align: right !important; }
+.clickable { cursor: pointer; }
+.clickable:hover td, .clickable:focus-visible td { background: var(--color-surface-hover); }
+.clickable:focus-visible { outline: none; box-shadow: inset 3px 0 0 var(--color-primary); }
+.skeleton { height: 14px; border-radius: 4px; background: linear-gradient(90deg, var(--color-surface-2), var(--color-surface-hover), var(--color-surface-2)); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }

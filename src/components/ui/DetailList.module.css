@@ -1,0 +1,5 @@
+.list { display: grid; grid-template-columns: minmax(120px, 190px) 1fr; margin: 0; }
+.list dt { color: var(--color-text-2); font-size: var(--text-sm); padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+.list dd { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--color-border); min-width: 0; overflow-wrap: anywhere; }
+.list dt:last-of-type, .list dd:last-of-type { border-bottom: 0; }
+@media (max-width: 520px) { .list { grid-template-columns: 1fr; } .list dt { border: 0; padding-bottom: 0; } }

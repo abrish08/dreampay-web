@@ -1,0 +1,9 @@
+.panel { position: fixed; z-index: 80; min-width: 200px; max-width: min(340px, calc(100vw - 16px)); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 6px; animation: pop .12s ease-out; }
+@keyframes pop { from { opacity: 0; transform: translateY(-4px); } }
+.item { display: flex; width: 100%; align-items: center; gap: 10px; padding: 8px 10px; border: 0; background: none; border-radius: var(--radius-sm); color: var(--color-text); font-size: var(--text-md); text-align: left; cursor: pointer; text-decoration: none; }
+.item:hover, .item:focus-visible { background: var(--color-surface-2); text-decoration: none; box-shadow: none; outline: none; }
+.item svg { color: var(--color-text-3); flex: none; }
+.danger, .danger svg { color: var(--color-danger); }
+.check { margin-left: auto; color: var(--color-primary) !important; }
+.label { padding: 8px 10px 4px; font-size: var(--text-xs); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--color-text-3); }
+.sep { height: 1px; background: var(--color-border); margin: 6px 0; }

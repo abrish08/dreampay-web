@@ -1,0 +1,13 @@
+.page { min-height: 100dvh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.aside { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 40px; color: #fff;
+  background: radial-gradient(1200px 600px at -10% -10%, #7c5cff 0%, transparent 55%), radial-gradient(900px 500px at 110% 110%, #4f8bff 0%, transparent 55%), #160f33; }
+.aside .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+.aside .logo { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: #fff; color: #1d1442; }
+.pitch h2 { font-size: 30px; line-height: 1.2; max-width: 16ch; }
+.pitch ul { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-direction: column; gap: 10px; color: rgb(255 255 255 / .82); }
+.pitch li { display: flex; gap: 10px; align-items: center; }
+.small { font-size: 13px; color: rgb(255 255 255 / .6); }
+.main { position: relative; display: flex; align-items: center; justify-content: center; padding: 56px 20px; }
+.theme { position: absolute; top: 16px; right: 16px; }
+.card { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: var(--space-5); }
+@media (max-width: 900px) { .page { grid-template-columns: 1fr; } .aside { display: none; } }
