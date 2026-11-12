@@ -4,7 +4,14 @@ export const PASSWORD_MIN = 12;
 export const PASSWORD_MAX = 128;
 
 export type PasswordRule = { id: string; label: string; ok: boolean };
-export type PasswordCheck = { rules: PasswordRule[]; valid: boolean; percent: number; label: "Too weak" | "Weak" | "Fair" | "Good" | "Strong"; tone: "danger" | "warning" | "info" | "success" };
+export type PasswordCheck = {
+  rules: PasswordRule[]; // required: all must pass
+  advice: string[]; // not required, but they lower the strength
+  valid: boolean;
+  percent: number;
+  label: "Too weak" | "Weak" | "Fair" | "Good" | "Strong";
+  tone: "danger" | "warning" | "info" | "success";
+};
 
 // Passwords and words attackers try first (checked as parts of the password too).
 const COMMON = ["password", "passw0rd", "qwerty", "123456", "123123", "111111", "abc123", "letmein", "welcome", "admin", "login", "iloveyou",
@@ -38,9 +45,12 @@ export function checkPassword(pw: string, personal: string[] = []): PasswordChec
     { id: "upper", label: "An uppercase letter (A–Z)", ok: /\p{Lu}/u.test(pw) },
     { id: "number", label: "A number (0–9)", ok: /\d/.test(pw) },
     { id: "symbol", label: "A symbol, e.g. ! @ # $ % & *", ok: /[^\p{L}\p{N}\s]/u.test(pw) },
-    { id: "unique", label: "No common words, sequences or your own name/email", ok: pw.length > 0 && !common && !mine && !hasSequence(pw) && !/(.)\1\1/.test(pw) },
   ];
   const valid = rules.every((r) => r.ok);
+  const advice: string[] = [];
+  if (pw && mine) advice.push("It contains your name, business or email, which makes it easier to guess.");
+  if (pw && common) advice.push("It contains a common word attackers try first.");
+  if (pw && (hasSequence(pw) || /(.)\1\1/.test(pw))) advice.push("It contains a sequence or repeated characters (abcd, 1234, aaa).");
 
   // Strength: estimated entropy (length × variety of characters), minus patterns.
   let pool = 0;
@@ -52,13 +62,13 @@ export function checkPassword(pw: string, personal: string[] = []): PasswordChec
   if (/(.)\1\1/.test(pw)) bits -= 12;
   if (hasSequence(pw)) bits -= 12;
   let percent = Math.round(Math.min(100, Math.max(0, (bits / 90) * 100)));
-  if (common || mine) percent = Math.min(percent, 15);
+  if (common || mine) percent = Math.min(percent, 50); // allowed, but never more than "Fair"
   if (!valid) percent = Math.min(percent, 55); // never "Good" before every rule passes
   if (!pw) percent = 0;
 
   const label = percent < 20 ? "Too weak" : percent < 40 ? "Weak" : percent < 60 ? "Fair" : percent < 80 ? "Good" : "Strong";
   const tone = percent < 40 ? "danger" : percent < 60 ? "warning" : percent < 80 ? "info" : "success";
-  return { rules, valid, percent, label, tone };
+  return { rules, advice, valid, percent, label, tone };
 }
 
 /** A random 18-character password with every character type (Web Crypto). */

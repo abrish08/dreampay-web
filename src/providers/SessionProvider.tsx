@@ -17,6 +17,14 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     api<Merchant>("v1/merchant").then(setMerchant).catch(() => {});
   }, []);
   useEffect(reload, [reload]);
+  // Pick up a KYC approval without signing out: check again every minute
+  // and whenever the tab comes back into view.
+  useEffect(() => {
+    const refresh = () => { if (document.visibilityState === "visible") api<Merchant>("v1/merchant").then(setMerchant).catch(() => {}); };
+    const t = setInterval(refresh, 60_000);
+    document.addEventListener("visibilitychange", refresh);
+    return () => { clearInterval(t); document.removeEventListener("visibilitychange", refresh); };
+  }, []);
   return <Ctx.Provider value={{ me, merchant, reload }}>{children}</Ctx.Provider>;
 }
 

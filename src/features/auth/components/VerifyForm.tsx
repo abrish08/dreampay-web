@@ -51,12 +51,12 @@ export function VerifyForm() {
   return (
     <form className="stack" onSubmit={(e) => { e.preventDefault(); verify(code); }}>
       <AuthHeading title="Check your email" subtitle={<>We sent a 6-digit code to <strong>{email}</strong>. It is valid for 15 minutes.</>} />
-      <Input label="Verification code" otp autoFocus inputMode="numeric" autoComplete="one-time-code" required maxLength={6} pattern="\d{6}" value={code}
+      <Input label="Verification code" otp autoFocus inputMode="numeric" autoComplete="one-time-code" required minLength={6} maxLength={6} pattern="\d{6}" value={code}
         valid={code.length === 6 && !error}
         onChange={(e) => { const v = e.target.value.replace(/\D/g, "").slice(0, 6); setCode(v); setError(""); if (v.length === 6) verify(v); }} />
       <ErrorText error={error} />
       {sent && !error && <Alert tone="success">A new code is on its way. Check your inbox and spam folder.</Alert>}
-      <Button type="submit" variant="primary" block loading={busy} disabled={code.length !== 6}>Verify email</Button>
+      <Button type="submit" variant="primary" block loading={busy}>Verify email</Button>
       <div className="cluster-between small">
         <span className="muted">Didn&apos;t get the code?</span>
         {left > 0 ? (

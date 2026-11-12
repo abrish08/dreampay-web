@@ -3,10 +3,12 @@ import { useState } from "react";
 import { Button, Card, Checkbox, DataTable, EmptyState, ErrorText, Input, SecretReveal, Select, StatusBadge, useConfirm, useToast, type Column } from "@/components/ui";
 import { useAction } from "@/hooks/useAction";
 import { useResource } from "@/hooks/useResource";
+import { useEnv } from "@/providers/EnvProvider";
 import { dateTime } from "@/lib/format";
 import { developersApi, SCOPES, type ApiKey } from "../api";
 
 export function ApiKeysCard() {
+  const { liveAllowed } = useEnv();
   const keys = useResource(() => developersApi.keys(), []);
   const [f, setF] = useState({ name: "", environment: "test", scopes: ["payments:read", "payments:write"] as string[] });
   const [secret, setSecret] = useState<{ title: string; value: string } | null>(null);
@@ -48,7 +50,8 @@ export function ApiKeysCard() {
         <form className="stack" onSubmit={create}>
           <div className="form-grid">
             <Input label="Name" required maxLength={60} placeholder="Web shop server" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
-            <Select label="Mode" options={[{ value: "test", label: "Test" }, { value: "live", label: "Live (needs verification)" }]} value={f.environment} onChange={(e) => setF({ ...f, environment: e.target.value })} />
+            <Select label="Mode" hint={liveAllowed ? undefined : "Live keys open after your business is verified."}
+              options={[{ value: "test", label: "Test" }, { value: "live", label: liveAllowed ? "Live" : "Live (after verification)", disabled: !liveAllowed }]} value={f.environment} onChange={(e) => setF({ ...f, environment: e.target.value })} />
           </div>
           <fieldset className="cluster" style={{ border: 0, padding: 0, margin: 0, gap: "8px 20px" }}>
             <legend className="small strong" style={{ marginBottom: 6 }}>Permissions</legend>

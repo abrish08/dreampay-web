@@ -37,7 +37,7 @@ export function Sidebar({ id }: { id: string }) {
 
 /** Logo plus the test/live switcher (like a workspace switcher). */
 function Workspace() {
-  const { env, setEnv } = useEnv();
+  const { env, setEnv, liveAllowed } = useEnv();
   return (
     <div className={s.workspace}>
       <Link href="/" className={s.brand}><span className={s.logo} aria-hidden="true">P</span>Paygate</Link>
@@ -46,7 +46,9 @@ function Workspace() {
       )}>
         <MenuLabel>Data shown</MenuLabel>
         <MenuItem icon="code" checked={env === "test"} onSelect={() => setEnv("test")}>Test mode</MenuItem>
-        <MenuItem icon="wallet" checked={env === "live"} onSelect={() => setEnv("live")}>Live mode</MenuItem>
+        {liveAllowed
+          ? <MenuItem icon="wallet" checked={env === "live"} onSelect={() => setEnv("live")}>Live mode</MenuItem>
+          : <MenuItem icon="lock" href="/kyc">Live mode: verify your business first</MenuItem>}
       </Menu>
     </div>
   );

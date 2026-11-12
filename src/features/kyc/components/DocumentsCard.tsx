@@ -67,7 +67,7 @@ export function DocumentsCard({ kyc, editable, onChange }: { kyc: Kyc; editable:
           <form className="form-grid" onSubmit={upload} style={{ alignItems: "end", borderTop: "1px solid var(--color-border)", paddingTop: 16 }}>
             <Select label="Document" options={types.map((t) => ({ value: t, label: documentLabel(t) }))} value={type} onChange={(e) => setType(e.target.value)} />
             <Input ref={input} label="File" type="file" required accept={TYPES.join(",")} hint="PDF, JPEG or PNG, up to 5 MB" onChange={(e) => pick(e.target.files?.[0] ?? null)} />
-            <div><Button type="submit" variant="primary" icon="upload" loading={busy} disabled={!file}>Upload</Button></div>
+            <div><Button type="submit" variant="primary" icon="upload" loading={busy}>Upload</Button></div>
           </form>
         )}
         <ErrorText error={error} />

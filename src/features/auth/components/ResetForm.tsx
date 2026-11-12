@@ -15,9 +15,11 @@ export function ResetForm() {
   const [done, setDone] = useState(false);
   const { busy, error, run } = useAction();
   const ready = passwordsOk(pw, pw2);
+  const [attempted, setAttempted] = useState(false);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
+    setAttempted(true);
     if (ready) run(async () => { await authApi.reset(token, pw); setPw(""); setPw2(""); setDone(true); });
   };
 
@@ -28,10 +30,10 @@ export function ResetForm() {
       {done ? (
         <Alert tone="success" title="Password changed" action={<Link href="/login">Sign in</Link>}>Other sessions were signed out.</Alert>
       ) : (
-        <form className="stack" onSubmit={submit} noValidate>
-          <NewPasswordFields password={pw} confirm={pw2} onPassword={setPw} onConfirm={setPw2} label="New password" />
+        <form className="stack" onSubmit={submit}>
+          <NewPasswordFields password={pw} confirm={pw2} onPassword={setPw} onConfirm={setPw2} label="New password" showErrors={attempted} />
           <ErrorText error={error} />
-          <Button type="submit" variant="primary" block loading={busy} disabled={!ready}>Change password</Button>
+          <Button type="submit" variant="primary" block loading={busy}>Change password</Button>
         </form>
       )}
     </div>

@@ -15,6 +15,7 @@ export function SignupForm() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [attempted, setAttempted] = useState(false);
   const { busy, error, run } = useAction();
 
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF({ ...f, [k]: e.target.value });
@@ -34,6 +35,7 @@ export function SignupForm() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ business_name: true, name: true, email: true, phone: true });
+    setAttempted(true);
     if (!ready) return;
     run(async () => {
       const email = f.email.trim().toLowerCase();
@@ -45,7 +47,7 @@ export function SignupForm() {
   };
 
   return (
-    <form className="stack" onSubmit={submit} noValidate>
+    <form className="stack" onSubmit={submit}>
       <AuthHeading title="Create your account" subtitle="Start in test mode right away. Live payments open after business verification." />
       <Input label="Business name" required autoComplete="organization" maxLength={100} value={f.business_name} onChange={set("business_name")} onBlur={blur("business_name")}
         valid={ok.business_name} error={err("business_name", "Enter your business name.")} />
@@ -55,10 +57,10 @@ export function SignupForm() {
         valid={ok.email} error={err("email", "Enter a valid email, e.g. name@business.com.")} />
       <Input label="Phone" type="tel" optional autoComplete="tel" placeholder="09… or +251 9…" value={f.phone} onChange={set("phone")} onBlur={blur("phone")}
         valid={f.phone.trim() !== "" && ok.phone} error={err("phone", "Use an Ethiopian mobile number, e.g. 0911 234 567.")} />
-      <NewPasswordFields password={password} confirm={confirm} onPassword={setPassword} onConfirm={setConfirm} personal={personal} />
+      <NewPasswordFields password={password} confirm={confirm} onPassword={setPassword} onConfirm={setConfirm} personal={personal} showErrors={attempted} />
       <ErrorText error={error} />
-      <Button type="submit" variant="primary" block loading={busy} disabled={!ready}>Create account</Button>
-      {!ready && <p className="small subtle" style={{ marginTop: -8 }}>Complete every field with a green tick to continue.</p>}
+      <Button type="submit" variant="primary" block loading={busy}>Create account</Button>
+      <p className="small subtle" style={{ marginTop: -8 }}>Fields marked <span style={{ color: "var(--color-danger)" }}>*</span> are required.</p>
       <p className="small muted">Already have an account? <Link href="/login">Sign in</Link></p>
     </form>
   );
